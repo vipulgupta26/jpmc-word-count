@@ -8,10 +8,14 @@ import java.util.Map;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class WordCount {
-    public static final String FILE_NAME = "words.txt";
+
     public static void main(String[] args) {
         WordCount wc = new WordCount();
-        File file = wc.getFile(FILE_NAME);
+        if(args.length < 1){
+            System.out.println("Usage : WordCount <filename>");
+            System.exit(0);
+        }
+        File file = new File(args[0]);
         String line = null;
         BufferedReader br =null;
         try {
@@ -21,9 +25,9 @@ public class WordCount {
                 String[] words = line.split(" ");
                 for(String word : words){
                     if(wordMap.containsKey(word)){
-                        wordMap.put(word, wordMap.get(word) + 1);
+                        wordMap.put(word.toLowerCase(), wordMap.get(word) + 1);
                     }else{
-                        wordMap.put(word, 1);
+                        wordMap.put(word.toLowerCase(), 1);
                     }
                 }
 
@@ -42,13 +46,4 @@ public class WordCount {
 
     }
 
-    public File getFile(String fileName){
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
-        } else {
-            return new File(resource.getFile());
-        }
-    }
 }

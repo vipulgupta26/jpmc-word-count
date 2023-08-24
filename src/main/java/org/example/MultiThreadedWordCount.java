@@ -9,7 +9,11 @@ public class MultiThreadedWordCount {
     public static final int N_THREADS = 3;
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(N_THREADS);
-        executor.execute(new WordCountRunnable());
+        if(args.length < 1){
+            System.out.println("Usage : WordCount <filename>");
+            System.exit(0);
+        }
+        executor.execute(new WordCountRunnable(args[0]));
         executor.shutdown();
     }
 

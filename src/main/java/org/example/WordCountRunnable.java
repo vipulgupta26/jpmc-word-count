@@ -10,10 +10,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class WordCountRunnable implements Runnable{
-    public static final String FILE_NAME = "words.txt";
+    private final String args;
+
+    public WordCountRunnable(String args){
+        this.args = args;
+    }
     @Override
     public void run() {
-        File file = getFile(FILE_NAME);
+        File file = new File(args);
         String line = null;
         BufferedReader br = null;
         try {
@@ -22,7 +26,7 @@ public class WordCountRunnable implements Runnable{
             while((line = br.readLine()) != null){
                 String[] words = line.split(" ");
                 for(String word : words){
-                    wordMap.compute(word, (k,v) -> (v == null) ? 1 : v + 1);
+                    wordMap.compute(word.toLowerCase(), (k,v) -> (v == null) ? 1 : v + 1);
                 }
 
             }
@@ -40,13 +44,5 @@ public class WordCountRunnable implements Runnable{
 
     }
 
-    public File getFile(String fileName){
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
-        } else {
-            return new File(resource.getFile());
-        }
-    }
+
 }
