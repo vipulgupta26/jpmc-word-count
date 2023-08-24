@@ -15,8 +15,9 @@ public class WordCountRunnable implements Runnable{
     public void run() {
         File file = getFile(FILE_NAME);
         String line = null;
+        BufferedReader br = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new FileReader(file));
             ConcurrentMap<String,Integer> wordMap = new ConcurrentHashMap<>();
             while((line = br.readLine()) != null){
                 String[] words = line.split(" ");
@@ -30,6 +31,11 @@ public class WordCountRunnable implements Runnable{
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }finally{
+            if( br != null)
+                try {
+                    br.close();
+                }catch(IOException e){e.printStackTrace();}
         }
 
     }

@@ -13,8 +13,9 @@ public class WordCount {
         WordCount wc = new WordCount();
         File file = wc.getFile(FILE_NAME);
         String line = null;
+        BufferedReader br =null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new FileReader(file));
             Map<String,Integer> wordMap = new HashMap<>();
             while((line = br.readLine()) != null){
                 String[] words = line.split(" ");
@@ -32,6 +33,11 @@ public class WordCount {
             }
         } catch (IOException  e) {
             throw new RuntimeException(e);
+        }finally{
+            if( br != null)
+                try {
+                    br.close();
+                }catch(IOException e){e.printStackTrace();}
         }
 
     }
