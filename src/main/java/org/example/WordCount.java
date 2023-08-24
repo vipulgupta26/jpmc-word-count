@@ -1,5 +1,7 @@
 package org.example;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
@@ -32,9 +34,10 @@ public class WordCount {
                 }
 
             }
-            for(Map.Entry<String,Integer> entry : wordMap.entrySet()){
-                System.out.println(entry.getKey() + ":" + entry.getValue());
-            }
+
+            Gson gson = new Gson();
+            String json = gson.toJson(wordMap);
+            System.out.println(json);
         } catch (IOException  e) {
             throw new RuntimeException(e);
         }finally{
